@@ -1,11 +1,15 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { trpc } from "@/lib/trpc";
-import { ShoppingCart, Edit2, Trash2, ArrowLeft } from "lucide-react";
+import { Trash2, ArrowLeft } from "lucide-react";
 import AdminModal from "@/components/AdminModal";
+import Navigation from "@/components/Navigation";
 import { toast } from "sonner";
+
+const LOGO_URL = "/manus-storage/8DF2EC4B-A4FA-4ED2-ADA9-83293B3C1C61_0cf65313.png";
 
 export default function Cart() {
   const [showAdmin, setShowAdmin] = useState(false);
@@ -49,44 +53,12 @@ export default function Cart() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-40 bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-8">
-            <Link href="/">
-              <a className="text-2xl font-bold text-gray-900 hover:text-gray-700 transition">
-                Elegance
-              </a>
-            </Link>
-            <div className="hidden md:flex gap-6">
-              <Link href="/products">
-                <a className="text-gray-700 hover:text-gray-900 font-medium transition">
-                  Shop
-                </a>
-              </Link>
-              <Link href="/cart">
-                <a className="text-gray-700 hover:text-gray-900 font-medium transition flex items-center gap-2">
-                  <ShoppingCart size={18} />
-                  Cart
-                </a>
-              </Link>
-            </div>
-          </div>
-          <button
-            onClick={() => setShowAdmin(true)}
-            className="p-2 text-gray-600 hover:text-gray-900 transition"
-            title="Admin"
-          >
-            <Edit2 size={18} />
-          </button>
-        </div>
-      </nav>
+      <Navigation onAdminClick={() => setShowAdmin(true)} logoUrl={LOGO_URL} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Back Button */}
         <button
           onClick={() => setLocation("/products")}
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-8 transition"
+          className="flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium mb-8 transition"
         >
           <ArrowLeft size={18} />
           Continue Shopping
@@ -95,80 +67,69 @@ export default function Cart() {
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-12">Shopping Cart</h1>
 
         {!cartItems || cartItems.length === 0 ? (
-          <div className="text-center py-16">
-            <ShoppingCart size={48} className="mx-auto text-gray-300 mb-4" />
-            <p className="text-gray-600 text-lg mb-6">Your cart is empty</p>
+          <Card className="p-12 text-center">
+            <p className="text-xl text-gray-600 mb-6">Your cart is empty</p>
             <Link href="/products">
               <a>
-                <Button className="bg-gray-900 hover:bg-gray-800">Continue Shopping</Button>
+                <Button className="bg-gradient-to-r from-purple-600 to-orange-500 hover:from-purple-700 hover:to-orange-600 text-white">
+                  Start Shopping
+                </Button>
               </a>
             </Link>
-          </div>
+          </Card>
         ) : (
           <div className="grid md:grid-cols-3 gap-8">
             {/* Cart Items */}
             <div className="md:col-span-2 space-y-4">
               {cartItems.map((item) => (
-                <Card key={item.id} className="p-6">
+                <Card key={item.productId} className="p-6 border border-purple-100">
                   <div className="flex gap-6">
-                    <div className="w-24 h-24 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                      {item.product?.imageUrl ? (
-                        <img
-                          src={item.product.imageUrl}
-                          alt={item.product.name}
-                          className="w-full h-full object-cover rounded-lg"
-                        />
-                      ) : (
-                        <div className="text-2xl">📦</div>
-                      )}
+                    {/* Product Image */}
+                    <div className="w-24 h-24 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
+                      <img
+                        src={item.product?.imageUrl || ""}
+                        alt={item.product?.name}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
 
-                    <div className="flex-1">
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                    {/* Product Details */}
+                    <div className="flex-grow">
+                      <h3 className="text-lg font-bold text-gray-900 mb-2">
                         {item.product?.name}
                       </h3>
-                      <p className="text-gray-600 text-sm mb-4">{item.product?.description}</p>
+                      <p className="text-purple-600 font-semibold mb-4">
+                        ${item.product?.price.toFixed(2)}
+                      </p>
 
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() =>
-                              handleUpdateQuantity(item.productId, Math.max(1, item.quantity - 1))
-                            }
-                          >
-                            −
-                          </Button>
-                          <span className="w-8 text-center font-medium">{item.quantity}</span>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() =>
-                              handleUpdateQuantity(
-                                item.productId,
-                                Math.min(item.product?.stock || 1, item.quantity + 1)
-                              )
-                            }
-                          >
-                            +
-                          </Button>
-                        </div>
-
-                        <div className="text-right">
-                          <p className="text-xl font-bold text-gray-900">
-                            ${((item.product?.price || 0) * item.quantity).toFixed(2)}
-                          </p>
-                          <button
-                            onClick={() => handleRemove(item.productId)}
-                            className="text-red-600 hover:text-red-700 text-sm font-medium mt-2 flex items-center gap-1 ml-auto"
-                          >
-                            <Trash2 size={14} />
-                            Remove
-                          </button>
-                        </div>
+                      {/* Quantity Control */}
+                      <div className="flex items-center gap-4">
+                        <label className="text-sm text-gray-600">Qty:</label>
+                        <Input
+                          type="number"
+                          min="1"
+                          value={item.quantity}
+                          onChange={(e) =>
+                            handleUpdateQuantity(
+                              item.productId,
+                              Math.max(1, parseInt(e.target.value) || 1)
+                            )
+                          }
+                          className="w-16 text-center border-purple-300"
+                        />
+                        <p className="text-sm text-gray-600">
+                          Subtotal: ${((item.product?.price || 0) * item.quantity).toFixed(2)}
+                        </p>
                       </div>
                     </div>
+
+                    {/* Remove Button */}
+                    <button
+                      onClick={() => handleRemove(item.productId)}
+                      className="text-red-500 hover:text-red-700 transition"
+                    >
+                      <Trash2 size={20} />
+                    </button>
                   </div>
                 </Card>
               ))}
@@ -176,28 +137,34 @@ export default function Cart() {
 
             {/* Order Summary */}
             <div className="md:col-span-1">
-              <Card className="p-8 sticky top-24">
+              <Card className="p-8 border border-purple-200 sticky top-24">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Order Summary</h2>
 
                 <div className="space-y-4 mb-6 pb-6 border-b border-gray-200">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Subtotal</span>
-                    <span className="font-semibold text-gray-900">${subtotal.toFixed(2)}</span>
+                  <div className="flex justify-between text-gray-600">
+                    <span>Subtotal</span>
+                    <span>${subtotal.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Shipping</span>
-                    <span className="font-semibold text-gray-900">Free</span>
+                  <div className="flex justify-between text-gray-600">
+                    <span>Shipping</span>
+                    <span>Free</span>
+                  </div>
+                  <div className="flex justify-between text-gray-600">
+                    <span>Tax</span>
+                    <span>${(subtotal * 0.1).toFixed(2)}</span>
                   </div>
                 </div>
 
-                <div className="flex justify-between mb-8">
-                  <span className="text-lg font-semibold text-gray-900">Total</span>
-                  <span className="text-2xl font-bold text-gray-900">${subtotal.toFixed(2)}</span>
+                <div className="flex justify-between items-center mb-8">
+                  <span className="text-lg font-bold text-gray-900">Total</span>
+                  <span className="text-3xl font-bold text-purple-600">
+                    ${(subtotal * 1.1).toFixed(2)}
+                  </span>
                 </div>
 
                 <Link href="/checkout">
                   <a>
-                    <Button className="w-full bg-gray-900 hover:bg-gray-800 text-white py-6">
+                    <Button className="w-full bg-gradient-to-r from-purple-600 to-orange-500 hover:from-purple-700 hover:to-orange-600 text-white py-3 text-lg">
                       Proceed to Checkout
                     </Button>
                   </a>
