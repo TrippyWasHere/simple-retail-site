@@ -8,6 +8,7 @@ import { trpc } from "@/lib/trpc";
 import { ArrowLeft, CheckCircle } from "lucide-react";
 import AdminModal from "@/components/AdminModal";
 import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
 import { toast } from "sonner";
 
 const LOGO_URL = "/manus-storage/8DF2EC4B-A4FA-4ED2-ADA9-83293B3C1C61_0cf65313.png";
@@ -43,8 +44,9 @@ export default function Checkout() {
 
   const subtotal =
     cartItems?.reduce((sum, item) => sum + (item.product?.price || 0) * item.quantity, 0) || 0;
+  const shipping = 15;
   const tax = subtotal * 0.1;
-  const total = subtotal + tax;
+  const total = subtotal + tax + shipping;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,9 +72,9 @@ export default function Checkout() {
         total,
       });
 
-      setOrderId((result as any).orderId);
-      setOrderConfirmed(true);
-      toast.success("Order placed successfully!");
+      sessionStorage.setItem("checkoutTotal", total.toString());
+      toast.success("Proceeding to payment...");
+      setLocation("/payment");
     } catch (error) {
       toast.error("Failed to place order");
     }
@@ -255,6 +257,10 @@ export default function Checkout() {
                   <span>${subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
+                  <span>Shipping (USPS Priority)</span>
+                  <span>${shipping.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-gray-600">
                   <span>Tax (10%)</span>
                   <span>${tax.toFixed(2)}</span>
                 </div>
@@ -273,6 +279,9 @@ export default function Checkout() {
 
       {/* Admin Modal */}
       <AdminModal open={showAdmin} onOpenChange={setShowAdmin} />
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

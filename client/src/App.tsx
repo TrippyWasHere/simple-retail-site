@@ -9,6 +9,9 @@ import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
+import Payment from "./pages/Payment";
+import OrderConfirmed from "./pages/OrderConfirmed";
+import About from "./pages/About";
 import Admin from "./pages/Admin";
 
 function Router() {
@@ -20,6 +23,9 @@ function Router() {
       <Route path={"/product/:id"} component={ProductDetail} />
       <Route path={"/cart"} component={Cart} />
       <Route path={"/checkout"} component={Checkout} />
+      <Route path={"/payment"} component={Payment} />
+      <Route path={"/order-confirmed"} component={OrderConfirmed} />
+      <Route path={"/about"} component={About} />
       <Route path={"/admin"} component={Admin} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}

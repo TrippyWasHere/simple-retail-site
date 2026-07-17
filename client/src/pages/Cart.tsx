@@ -7,6 +7,7 @@ import { trpc } from "@/lib/trpc";
 import { Trash2, ArrowLeft } from "lucide-react";
 import AdminModal from "@/components/AdminModal";
 import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
 import { toast } from "sonner";
 
 const LOGO_URL = "/manus-storage/8DF2EC4B-A4FA-4ED2-ADA9-83293B3C1C61_0cf65313.png";
@@ -172,6 +173,9 @@ export default function Cart() {
 
       {/* Admin Modal */}
       <AdminModal open={showAdmin} onOpenChange={setShowAdmin} />
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
