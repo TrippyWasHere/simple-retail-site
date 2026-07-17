@@ -27,13 +27,11 @@ export default function Home() {
               <p className="text-xl text-gray-600 leading-relaxed">
                 Explore our curated collection of premium scientific products and tools designed for the discerning researcher and enthusiast.
               </p>
-              <Link href="/products">
-                <a>
-                  <Button className="bg-gradient-to-r from-purple-600 to-orange-500 hover:from-purple-700 hover:to-orange-600 text-white px-8 py-3 text-lg">
-                    Explore Collection
-                  </Button>
-                </a>
-              </Link>
+            <Link href="/products">
+              <Button className="bg-gradient-to-r from-purple-600 to-orange-500 hover:from-purple-700 hover:to-orange-600 text-white px-8 py-3 text-lg">
+                Explore Collection
+              </Button>
+            </Link>
             </div>
             <div className="flex justify-center">
               <img src={LOGO_URL} alt="Sublime Science" className="h-80 w-auto drop-shadow-lg" />
@@ -64,8 +62,7 @@ export default function Home() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {featuredProducts?.map((product) => (
                 <Link key={product.id} href={`/product/${product.id}`}>
-                  <a className="group">
-                    <Card className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                  <Card className="overflow-hidden hover:shadow-xl transition-shadow duration-300 group cursor-pointer">
                       <div className="aspect-square bg-gray-100 overflow-hidden">
                         <img
                           src={product.imageUrl || ""}
@@ -93,23 +90,20 @@ export default function Home() {
                         </div>
                       </div>
                     </Card>
-                  </a>
                 </Link>
               ))}
             </div>
           )}
 
           <div className="text-center mt-12">
-            <Link href="/products">
-              <a>
-                <Button
-                  variant="outline"
-                  className="border-purple-600 text-purple-600 hover:bg-purple-50 px-8 py-3 text-lg"
-                >
-                  View All Products
-                </Button>
-              </a>
-            </Link>
+          <Link href="/products">
+            <Button
+              variant="outline"
+              className="border-purple-600 text-purple-600 hover:bg-purple-50 px-8 py-3 text-lg"
+            >
+              View All Products
+            </Button>
+          </Link>
           </div>
         </div>
       </section>

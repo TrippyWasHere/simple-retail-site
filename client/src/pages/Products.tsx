@@ -79,8 +79,7 @@ export default function Products() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {filteredProducts.map((product) => (
                   <Link key={product.id} href={`/product/${product.id}`}>
-                    <a className="group">
-                      <Card className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                    <Card className="overflow-hidden hover:shadow-xl transition-shadow duration-300 group cursor-pointer">
                         <div className="aspect-square bg-gray-100 overflow-hidden">
                           <img
                             src={product.imageUrl || ""}
@@ -108,7 +107,6 @@ export default function Products() {
                           </div>
                         </div>
                       </Card>
-                    </a>
                   </Link>
                 ))}
               </div>

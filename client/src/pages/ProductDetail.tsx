@@ -47,13 +47,12 @@ export default function ProductDetail() {
       <Navigation onAdminClick={() => setShowAdmin(true)} logoUrl={LOGO_URL} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <button
-          onClick={() => setLocation("/products")}
-          className="flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium mb-8 transition"
-        >
-          <ArrowLeft size={18} />
-          Back to Products
-        </button>
+        <Link href="/products">
+          <button className="flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium mb-8 transition">
+            <ArrowLeft size={18} />
+            Back to Products
+          </button>
+        </Link>
 
         {isLoading ? (
           <div className="grid md:grid-cols-2 gap-12">

@@ -115,11 +115,9 @@ export default function Checkout() {
             </p>
 
             <Link href="/products">
-              <a>
-                <Button className="bg-gradient-to-r from-purple-600 to-orange-500 hover:from-purple-700 hover:to-orange-600 text-white px-8 py-3 text-lg">
-                  Continue Shopping
-                </Button>
-              </a>
+              <Button className="bg-gradient-to-r from-purple-600 to-orange-500 hover:from-purple-700 hover:to-orange-600 text-white px-8 py-3 text-lg">
+                Continue Shopping
+              </Button>
             </Link>
           </Card>
         </div>
@@ -134,13 +132,12 @@ export default function Checkout() {
       <Navigation onAdminClick={() => setShowAdmin(true)} logoUrl={LOGO_URL} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <button
-          onClick={() => setLocation("/cart")}
-          className="flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium mb-8 transition"
-        >
-          <ArrowLeft size={18} />
-          Back to Cart
-        </button>
+        <Link href="/cart">
+          <button className="flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium mb-8 transition">
+            <ArrowLeft size={18} />
+            Back to Cart
+          </button>
+        </Link>
 
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-12">Checkout</h1>
 

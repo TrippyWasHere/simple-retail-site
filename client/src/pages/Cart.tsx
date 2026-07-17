@@ -56,13 +56,12 @@ export default function Cart() {
       <Navigation onAdminClick={() => setShowAdmin(true)} logoUrl={LOGO_URL} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <button
-          onClick={() => setLocation("/products")}
-          className="flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium mb-8 transition"
-        >
-          <ArrowLeft size={18} />
-          Continue Shopping
-        </button>
+        <Link href="/products">
+          <button className="flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium mb-8 transition">
+            <ArrowLeft size={18} />
+            Continue Shopping
+          </button>
+        </Link>
 
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-12">Shopping Cart</h1>
 
@@ -70,11 +69,9 @@ export default function Cart() {
           <Card className="p-12 text-center">
             <p className="text-xl text-gray-600 mb-6">Your cart is empty</p>
             <Link href="/products">
-              <a>
-                <Button className="bg-gradient-to-r from-purple-600 to-orange-500 hover:from-purple-700 hover:to-orange-600 text-white">
-                  Start Shopping
-                </Button>
-              </a>
+              <Button className="bg-gradient-to-r from-purple-600 to-orange-500 hover:from-purple-700 hover:to-orange-600 text-white">
+                Start Shopping
+              </Button>
             </Link>
           </Card>
         ) : (
@@ -163,11 +160,9 @@ export default function Cart() {
                 </div>
 
                 <Link href="/checkout">
-                  <a>
-                    <Button className="w-full bg-gradient-to-r from-purple-600 to-orange-500 hover:from-purple-700 hover:to-orange-600 text-white py-3 text-lg">
-                      Proceed to Checkout
-                    </Button>
-                  </a>
+                  <Button className="w-full bg-gradient-to-r from-purple-600 to-orange-500 hover:from-purple-700 hover:to-orange-600 text-white py-3 text-lg">
+                    Proceed to Checkout
+                  </Button>
                 </Link>
               </Card>
             </div>
