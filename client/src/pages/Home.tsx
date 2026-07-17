@@ -23,7 +23,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <h1 className="text-5xl md:text-6xl font-bold text-gray-900">
-                Discover <span className="bg-gradient-to-r from-purple-600 to-orange-500 bg-clip-text text-transparent">Innovation</span>
+                <span className="text-gray-900">Discover</span> <span className="bg-gradient-to-r from-purple-600 to-orange-500 bg-clip-text text-transparent">Innovation</span>
               </h1>
               <p className="text-xl text-gray-600 leading-relaxed">
                 Explore our curated collection of premium scientific products and tools designed for the discerning researcher and enthusiast.
