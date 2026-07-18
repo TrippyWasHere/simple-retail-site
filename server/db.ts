@@ -221,7 +221,12 @@ export async function createOrder(sessionId: string, total: number) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   const result = await db.insert(orders).values({ sessionId, total: total.toString() });
-  return result;
+  // Extract insertId from the result
+  const insertId = (result as any)[0]?.insertId ?? (result as any).insertId;
+  if (!insertId) {
+    throw new Error("Failed to get order ID from database");
+  }
+  return { insertId };
 }
 
 export async function getOrderById(id: number) {

@@ -62,6 +62,7 @@ export default function Checkout() {
     }
 
     try {
+      console.log("Creating order with:", { sessionId, items: cartItems, total });
       const result = await createOrderMutation.mutateAsync({
         sessionId,
         items: cartItems.map((item) => ({
@@ -72,11 +73,14 @@ export default function Checkout() {
         total,
       });
 
+      console.log("Order created:", result);
       sessionStorage.setItem("checkoutTotal", total.toString());
       toast.success("Proceeding to payment...");
       setLocation("/payment");
     } catch (error) {
-      toast.error("Failed to place order");
+      console.error("Order creation error:", error);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      toast.error(`Failed to place order: ${errorMessage}`);
     }
   };
 
@@ -221,13 +225,13 @@ export default function Checkout() {
                 </div>
 
                 <div className="pt-6 border-t border-gray-200">
-                  <Button
+                  <button
                     type="submit"
                     disabled={createOrderMutation.isPending}
-                    className="w-full bg-gradient-to-r from-purple-600 to-orange-500 hover:from-purple-700 hover:to-orange-600 text-white py-3 text-lg"
+                    className="w-full bg-gradient-to-r from-purple-600 to-orange-500 hover:from-purple-700 hover:to-orange-600 text-white py-3 text-lg rounded-lg font-semibold transition-all"
                   >
                     {createOrderMutation.isPending ? "Processing..." : "Place Order"}
-                  </Button>
+                  </button>
                 </div>
               </form>
             </Card>
