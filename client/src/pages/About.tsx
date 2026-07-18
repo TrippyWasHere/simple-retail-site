@@ -103,7 +103,7 @@ export default function About() {
       <AdminModal open={showAdmin} onOpenChange={setShowAdmin} />
 
       {/* Footer */}
-      <Footer />
+      <Footer onAdminClick={() => setShowAdmin(true)} />
     </div>
   );
 }

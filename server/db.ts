@@ -217,10 +217,28 @@ export async function clearCart(sessionId: string) {
 }
 
 // Order queries
-export async function createOrder(sessionId: string, total: number) {
+export async function createOrder(
+  sessionId: string,
+  total: number,
+  name?: string,
+  email?: string,
+  address?: string,
+  city?: string,
+  state?: string,
+  zip?: string
+) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
-  const result = await db.insert(orders).values({ sessionId, total: total.toString() });
+  const result = await db.insert(orders).values({
+    sessionId,
+    total: total.toString(),
+    name,
+    email,
+    address,
+    city,
+    state,
+    zip,
+  });
   // Extract insertId from the result
   const insertId = (result as any)[0]?.insertId ?? (result as any).insertId;
   if (!insertId) {

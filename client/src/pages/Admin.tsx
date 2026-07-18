@@ -38,6 +38,7 @@ export default function Admin() {
   // Queries
   const { data: products, refetch: refetchProducts } = trpc.products.list.useQuery();
   const { data: categories, refetch: refetchCategories } = trpc.categories.list.useQuery();
+  const { data: orders } = trpc.orders.getAll.useQuery();
 
   // Mutations
   const createProductMutation = trpc.products.create.useMutation();
@@ -202,9 +203,10 @@ export default function Admin() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <Tabs defaultValue="products" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="products">Products</TabsTrigger>
             <TabsTrigger value="categories">Categories</TabsTrigger>
+            <TabsTrigger value="orders">Orders</TabsTrigger>
           </TabsList>
 
           {/* Products Tab */}
@@ -456,6 +458,53 @@ export default function Admin() {
                 ))}
               </div>
             </div>
+          </TabsContent>
+
+          {/* Orders Tab */}
+          <TabsContent value="orders" className="space-y-6">
+            <Card className="p-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Order Details</h2>
+              {!orders || orders.length === 0 ? (
+                <p className="text-gray-600">No orders yet</p>
+              ) : (
+                <div className="space-y-4">
+                  {orders.map((order) => (
+                    <Card key={order.id} className="p-6 border border-gray-200">
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-sm text-gray-600">Order ID</p>
+                          <p className="font-semibold text-gray-900">#{order.id}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-600">Total</p>
+                          <p className="font-semibold text-purple-600 text-lg">${order.total}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-600">Customer Name</p>
+                          <p className="font-semibold text-gray-900">{order.name}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-600">Email</p>
+                          <p className="font-semibold text-gray-900">{order.email}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-600">Address</p>
+                          <p className="font-semibold text-gray-900">{order.address}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-600">City, State, ZIP</p>
+                          <p className="font-semibold text-gray-900">{order.city}, {order.state} {order.zip}</p>
+                        </div>
+                        <div className="md:col-span-2">
+                          <p className="text-sm text-gray-600">Order Date</p>
+                          <p className="font-semibold text-gray-900">{new Date(order.createdAt).toLocaleString()}</p>
+                        </div>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </Card>
           </TabsContent>
         </Tabs>
       </div>

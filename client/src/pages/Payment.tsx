@@ -96,9 +96,9 @@ export default function Payment() {
                   <p className="text-sm text-gray-600 mb-2">Amount in Bitcoin</p>
                   <div className="bg-white border border-purple-300 rounded-lg p-4">
                     <p className="text-2xl font-bold text-purple-600">
-                      {(total / 43000).toFixed(6)} BTC
+                      {(total / 63000).toFixed(6)} BTC
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">(Approximate rate: $43,000 per BTC)</p>
+                    <p className="text-xs text-gray-500 mt-1">(Approximate rate: $63,000 per BTC)</p>
                   </div>
                 </div>
 
@@ -145,9 +145,9 @@ export default function Payment() {
                   <p className="text-sm text-gray-600 mb-2">Amount in Monero</p>
                   <div className="bg-white border border-purple-300 rounded-lg p-4">
                     <p className="text-2xl font-bold text-purple-600">
-                      {(total / 150).toFixed(4)} XMR
+                      {(total / 320).toFixed(12)} XMR
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">(Approximate rate: $150 per XMR)</p>
+                    <p className="text-xs text-gray-500 mt-1">(Approximate rate: $320 per XMR)</p>
                   </div>
                 </div>
 
@@ -190,7 +190,7 @@ export default function Payment() {
       <AdminModal open={showAdmin} onOpenChange={setShowAdmin} />
 
       {/* Footer */}
-      <Footer />
+      <Footer onAdminClick={() => setShowAdmin(true)} />
     </div>
   );
 }

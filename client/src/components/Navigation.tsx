@@ -19,7 +19,7 @@ export default function Navigation({ onAdminClick, logoUrl }: NavigationProps) {
             {logoUrl && (
               <img src={logoUrl} alt="Sublime Science" className="h-10 w-auto" />
             )}
-            <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-orange-500 bg-clip-text text-transparent hover:opacity-80 transition">
+            <span className="text-lg font-bold bg-gradient-to-r from-purple-600 to-orange-500 bg-clip-text text-transparent hover:opacity-80 transition">
               Sublime Science
             </span>
           </div>

@@ -149,7 +149,7 @@ export default function ProductDetail() {
       <AdminModal open={showAdmin} onOpenChange={setShowAdmin} />
 
       {/* Footer */}
-      <Footer />
+      <Footer onAdminClick={() => setShowAdmin(true)} />
     </div>
   );
 }

@@ -71,6 +71,12 @@ export default function Checkout() {
           price: item.product?.price || 0,
         })),
         total,
+        name: formData.name,
+        email: formData.email,
+        address: formData.address,
+        city: formData.city,
+        state: formData.state,
+        zip: formData.zip,
       });
 
       console.log("Order created:", result);
@@ -285,7 +291,7 @@ export default function Checkout() {
       <AdminModal open={showAdmin} onOpenChange={setShowAdmin} />
 
       {/* Footer */}
-      <Footer />
+      <Footer onAdminClick={() => setShowAdmin(true)} />
     </div>
   );
 }

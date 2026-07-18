@@ -1,6 +1,10 @@
-import { Mail, Heart } from "lucide-react";
+import { Mail, Heart, Edit2 } from "lucide-react";
 
-export default function Footer() {
+interface FooterProps {
+  onAdminClick?: () => void;
+}
+
+export default function Footer({ onAdminClick }: FooterProps) {
   return (
     <footer className="bg-gradient-to-r from-purple-100 to-orange-50 border-t border-purple-200 mt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -51,12 +55,24 @@ export default function Footer() {
 
         {/* Divider */}
         <div className="border-t border-purple-200 pt-8">
-          <div className="flex items-center justify-center gap-2 text-gray-600">
+          <div className="flex items-center justify-center gap-2 text-gray-600 mb-4">
             <span>Made with</span>
             <Heart size={18} className="text-red-500" />
             <span>by Sublime Science</span>
           </div>
-          <p className="text-center text-sm text-gray-500 mt-4">
+          {onAdminClick && (
+            <div className="flex items-center justify-center mb-4">
+              <button
+                onClick={onAdminClick}
+                className="flex items-center gap-2 px-4 py-2 text-sm text-purple-600 hover:text-purple-700 hover:bg-purple-50 rounded-lg transition"
+                title="Admin Panel"
+              >
+                <Edit2 size={16} />
+                Admin
+              </button>
+            </div>
+          )}
+          <p className="text-center text-sm text-gray-500">
             © 2026 Sublime Science. All rights reserved.
           </p>
         </div>

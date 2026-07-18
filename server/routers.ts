@@ -1,10 +1,12 @@
 import { COOKIE_NAME } from "@shared/const";
+import { desc } from "drizzle-orm";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import {
+  getDb,
   getProducts,
   getProductById,
   getProductsByCategory,
@@ -26,6 +28,7 @@ import {
   getOrderById,
   createOrderItem,
 } from "./db";
+import { orders } from "../drizzle/schema";
 
 const ADMIN_CODE = "44774";
 
@@ -290,10 +293,25 @@ export const appRouter = router({
             })
           ),
           total: z.number(),
+          name: z.string().optional(),
+          email: z.string().optional(),
+          address: z.string().optional(),
+          city: z.string().optional(),
+          state: z.string().optional(),
+          zip: z.string().optional(),
         })
       )
       .mutation(async ({ input }) => {
-        const order = await createOrder(input.sessionId, input.total);
+        const order = await createOrder(
+          input.sessionId,
+          input.total,
+          input.name,
+          input.email,
+          input.address,
+          input.city,
+          input.state,
+          input.zip
+        );
         // Get the inserted order ID - need to query it back
         const orderId = (order as any).insertId;
         
@@ -309,6 +327,12 @@ export const appRouter = router({
       }),
     getById: publicProcedure.input(z.number()).query(async ({ input }) => {
       return getOrderById(input);
+    }),
+    getAll: publicProcedure.query(async () => {
+      const db = await getDb();
+      if (!db) return [];
+      const result = await db.select().from(orders).orderBy(desc(orders.createdAt));
+      return result;
     }),
   }),
 });

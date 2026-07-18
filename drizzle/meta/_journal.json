@@ -15,6 +15,13 @@
       "when": 1784291080364,
       "tag": "0001_old_wiccan",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1784397613265,
+      "tag": "0002_fancy_captain_america",
+      "breakpoints": true
     }
   ]
 }
